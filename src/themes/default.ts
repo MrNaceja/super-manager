@@ -1,5 +1,5 @@
 export enum DefaultTheme {
-    'gray-100' = '#f8f9fa', 
+    'gray-100' = '#f6f6f6', 
     'gray-200' = '#e9ecef', 
     'gray-300' = '#dee2e6', 
     'gray-400' = '#ced4da', 
