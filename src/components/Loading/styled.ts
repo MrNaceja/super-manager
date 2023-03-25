@@ -1,0 +1,13 @@
+import styled from "styled-components/native";
+
+export const Container = styled.View`
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    background-color: ${props => props.theme["gray-900"]};
+`
+
+export const Loader = styled.ActivityIndicator.attrs(({theme}) => ({
+    color: theme["green-500"],
+    size: 'large'
+}))``
