@@ -5,6 +5,7 @@ import { DefaultTheme } from './src/themes/default';
 import Loading from './src/components/Loading';
 import { StatusBar } from 'expo-status-bar';
 import Supers from './src/screens/Supers';
+import NewSuper from './src/screens/NewSuper'
 
 export default function App() {
 const [fontLoaded] = useFonts({Poppins_400Regular, Poppins_700Bold})
@@ -13,7 +14,7 @@ const [fontLoaded] = useFonts({Poppins_400Regular, Poppins_700Bold})
     <ThemeProvider theme={DefaultTheme}>
       <StatusBar style='light' translucent />
       {
-        fontLoaded ? <Supers /> : <Loading />
+        fontLoaded ? <NewSuper /> : <Loading />
       }
     </ThemeProvider>
   );

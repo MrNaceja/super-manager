@@ -1,10 +1,15 @@
+import { TouchableOpacityProps } from 'react-native'
 import * as Styled from './styled'
 
-export default function SuperCard() {
+interface PropsSuper extends TouchableOpacityProps{
+    superName: string
+}
+
+export default function SuperCard({ superName, ...touchableProps } : PropsSuper) {
     return (
-        <Styled.TouchableCard>
+        <Styled.TouchableCard {...touchableProps} >
             <Styled.Icon />
-            <Styled.SuperName>Atacado Albino</Styled.SuperName>
+            <Styled.SuperName>{superName}</Styled.SuperName>
         </Styled.TouchableCard>
     )
 }

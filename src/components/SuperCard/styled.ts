@@ -5,6 +5,7 @@ import { ShoppingCart } from 'phosphor-react-native'
 export const SuperName = styled.Text`
     color: ${props => props.theme["gray-400"]};
     font-size: 28px;
+    font-family: 'Poppins_400Regular';
 `
 
 export const Icon = styled(ShoppingCart).attrs(props => ({
@@ -17,8 +18,9 @@ export const TouchableCard = styled(TouchableOpacity)`
     background: ${props => props.theme["gray-800"]};
     height: 100px;
     width: 100%;
-    padding: 5px;
+    padding: 20px;
     border-radius: 5px;
     flex-direction: row;
     align-items: center;
+    gap: 15px
 `

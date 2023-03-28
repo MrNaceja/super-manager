@@ -22,5 +22,4 @@ export const IconBack = styled(ArrowLeft).attrs(({ theme }) => ({
 export const Logo = styled(ShoppingCart).attrs(({ theme }) => ({
     size: 32,
     color: theme["gray-100"],
-    weight: 'fill'
 }))``
