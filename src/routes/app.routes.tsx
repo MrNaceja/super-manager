@@ -9,6 +9,10 @@ export enum AppRoutes {
     SUPER_LIST = 'superList'
 }
 
+export type TScreenListSuperProps = {
+    superMarket: string
+}
+
 export default function AppRouter() {
 
     const { Navigator : Stack, Screen } = createNativeStackNavigator()

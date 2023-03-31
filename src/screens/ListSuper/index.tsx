@@ -9,6 +9,8 @@ import ListSelector from '../../components/ListSelector'
 import Product from '../../components/Product'
 import * as Styled from './styled'
 import Button from '../../components/Button'
+import { useRoute, RouteProp } from '@react-navigation/native';
+import { TScreenListSuperProps } from '../../routes/app.routes'
 
 interface Product {
     id: number;
@@ -67,12 +69,17 @@ export default function ListSuper() {
         }
     ])
     const [listSuperSelected, setListSuperSelected] = useState('Frios')
+
+    const route = useRoute()
+    const params = route.params as TScreenListSuperProps
+    const superMarket = params.superMarket
+
     return (
         <Styled.ListSuperContainer>
             <Header />
             <InfoHighlight 
-                title='Lista de Compras'
-                description='Adicione produtos e listas de compras'
+                title={superMarket}
+                description='Adicione produtos nas listas de compras'
             />
             <Styled.FormProduct>
                 <InputText 

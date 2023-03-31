@@ -1,11 +1,10 @@
 import styled from "styled-components/native";
 import {ShoppingCart, ArrowLeft} from 'phosphor-react-native'
+import { SafeAreaView } from "react-native-safe-area-context";
 
-export const Header = styled.View`
-    width: 100%;
+export const Header = styled(SafeAreaView)`
     height: 80px;
     align-items: center;
-    padding: 30px 10px 0 10px;
     justify-content: center;
     flex-direction: row;
 `

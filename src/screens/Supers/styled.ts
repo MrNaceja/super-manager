@@ -6,7 +6,7 @@ export const SupersContainer = styled.View`
     flex: 1;
     background: ${props => props.theme["gray-900"]};
     gap: 30px;
-    padding: 20px;
+    padding: 15px 15px 15px;
 `
 
 export const SuperList = (styled(FlatList).attrs(props => ({
