@@ -1,15 +1,20 @@
 import { useState } from "react";
-import { FlatList } from "react-native";
 import Button from "../../components/Button";
 import Header from "../../components/Header";
 import InfoHighlight from "../../components/InfoHightlight";
 import ListEmpty from "../../components/ListEmpty";
 import SuperCard from "../../components/SuperCard";
 import * as Styled from "./styled";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Supers() {
-    // const [supers, setSupers] = useState<string[]>([])
     const [supers, setSupers] = useState<string[]>(['Atacado Albino', 'teste'])
+
+    const navigatorScreen = useNavigation()
+
+    function onPressNavigateToCreateNewSuper() {
+        navigatorScreen.navigate("newSuper")
+    }
 
     return (
         <Styled.SupersContainer>
@@ -35,6 +40,7 @@ export default function Supers() {
 
             <Button 
                 buttonText="Novo Supermercado"
+                onPress={onPressNavigateToCreateNewSuper}
             />
         </Styled.SupersContainer>
     )

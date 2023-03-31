@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 export const ListSuperContainer = styled.View`
     flex: 1;
     background: ${props => props.theme["gray-900"]};
-    gap: 30px;
+    gap: 10px;
     padding: 20px;
 `
 
@@ -13,3 +13,5 @@ export const FormProduct = styled.View`
     flex-direction: row;
     border-radius: 5px;
 `
+
+export const ListSuperSelector = styled.View``

@@ -8,10 +8,10 @@ interface PropsListSelector extends TouchableOpacityProps{
 
 export default function ListSelector({ listSelector, isSelected = false, ...touchableProps } : PropsListSelector) {
     return (
-        <Styled.SelectorContainer isSelected={isSelected} {...touchableProps}>
+        <Styled.Selector isSelected={isSelected} {...touchableProps}>
             <Styled.SelectorText isSelected={isSelected}>
                 { listSelector }
             </Styled.SelectorText>
-        </Styled.SelectorContainer>
+        </Styled.Selector>
     )
 }

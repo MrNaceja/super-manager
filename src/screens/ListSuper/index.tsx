@@ -4,9 +4,11 @@ import Header from '../../components/Header'
 import IconButton from '../../components/IconButton'
 import InfoHighlight from '../../components/InfoHightlight'
 import InputText from '../../components/InputText'
+import ListEmpty from '../../components/ListEmpty'
 import ListSelector from '../../components/ListSelector'
 import Product from '../../components/Product'
 import * as Styled from './styled'
+import Button from '../../components/Button'
 
 interface Product {
     id: number;
@@ -28,6 +30,18 @@ export default function ListSuper() {
             },
             {
                 id: 2,
+                name: 'Banana'
+            },
+            {
+                id: 9,
+                name: 'Banana'
+            },
+            {
+                id: 8,
+                name: 'Banana'
+            },
+            {
+                id: 10,
                 name: 'Banana'
             },
             {
@@ -53,7 +67,6 @@ export default function ListSuper() {
         }
     ])
     const [listSuperSelected, setListSuperSelected] = useState('Frios')
-
     return (
         <Styled.ListSuperContainer>
             <Header />
@@ -70,28 +83,33 @@ export default function ListSuper() {
                     variant="sucess"
                 />
             </Styled.FormProduct>
-
-        <FlatList 
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{flex:1, height: 38, gap:5}}
-            data={listSupers}
-            keyExtractor={(listSuper) => listSuper.selector}
-            renderItem={({ item : listSuper }) => (
-                <ListSelector 
-                    listSelector={listSuper.selector}
-                    isSelected={listSuper.selector === listSuperSelected}
-                    onPress={() => setListSuperSelected(listSuper.selector)}
+            <Styled.ListSuperSelector>
+                <FlatList 
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{columnGap:5}}
+                    data={listSupers}
+                    keyExtractor={(listSuper) => listSuper.selector}
+                    renderItem={({ item : listSuper }) => (
+                        <ListSelector 
+                            listSelector={listSuper.selector}
+                            isSelected={listSuper.selector === listSuperSelected}
+                            onPress={() => setListSuperSelected(listSuper.selector)}
+                        />
+                    )}
                 />
-            )}
-        />
-
-        <FlatList 
-            data={listSupers.filter(list => list.selector == listSuperSelected)[0].products}
-            keyExtractor={product => product.id.toString()}
-            renderItem={({ item: product }) => <Product name={product.name} />}
-        />
-
+            </Styled.ListSuperSelector>
+            <FlatList 
+                data={listSupers.filter(list => list.selector == listSuperSelected)[0].products}
+                keyExtractor={product => product.id.toString()}
+                renderItem={({ item: product }) => <Product name={product.name} />}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={() => <ListEmpty messageEmpty="Não há produtos listados" />}
+            />
+            <Button 
+                buttonText="Deletar Supermercado"
+                variant="error"
+            />
         </Styled.ListSuperContainer>
     )
 }

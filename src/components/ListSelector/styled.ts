@@ -6,15 +6,15 @@ interface PropsSelector {
     isSelected: boolean
 }
 
-export const SelectorContainer = styled(TouchableOpacity) <PropsSelector>`
-    height: 38px;
+export const Selector = styled(TouchableOpacity) <PropsSelector>`
+    height: 50px;
     ${({ isSelected, theme }) => (
         css`
             background-color: ${ isSelected ? theme["gray-800"] : theme["gray-900"]};
-            padding: 10px 15px;
+            padding: 5px 20px;
             border-radius: 5px;
-            text-align: center;
             align-items: center;
+            justify-content: center;
         `
     )}
 `
