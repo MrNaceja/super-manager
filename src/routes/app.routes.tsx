@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import Supers from "../screens/Supers"
 import NewSuper from "../screens/NewSuper"
 import ListSuper from "../screens/ListSuper"
+import SuperMarketDTO from "../storage/superMarket/SuperMarketDTO"
 
 export enum AppRoutes {
     HOME       = 'home',
@@ -10,7 +11,7 @@ export enum AppRoutes {
 }
 
 export type TScreenListSuperProps = {
-    superMarket: string
+    superMarket: SuperMarketDTO
 }
 
 export default function AppRouter() {

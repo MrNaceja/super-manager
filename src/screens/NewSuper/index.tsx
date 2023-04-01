@@ -5,14 +5,24 @@ import InfoHighlight from '../../components/InfoHightlight'
 import InputText from '../../components/InputText'
 import * as Styled from './styled'
 import { useNavigation} from '@react-navigation/native';
+import create from '../../storage/superMarket/create'
+import SuperMarketDTO from '../../storage/superMarket/SuperMarketDTO'
+import nextId from "react-id-generator";
+import { AppRoutes } from '../../routes/app.routes'
 
 export default function NewSuper() {
     const [superMarket, setSuperMarket] = useState('')
 
     const navigatorScreen = useNavigation()
 
-    function onPressGoToLists() {
-        navigatorScreen.navigate("superList", { superMarket })
+    async function onPressCreateSuper() {
+        try {
+            const newSuperMarket : SuperMarketDTO = {id: nextId(), name: superMarket}
+            await create(newSuperMarket)
+            navigatorScreen.navigate(AppRoutes.SUPER_LIST, { superMarket })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -23,7 +33,7 @@ export default function NewSuper() {
                 description='Adicione um novo supermercado e gerencia suas listas de compras'
             />
             <InputText placeholder='seu supermercado favorito' onChangeText={setSuperMarket}/>
-            <Button buttonText='Criar listas de compras' onPress={onPressGoToLists}/>
+            <Button buttonText='Criar listas de compras' onPress={onPressCreateSuper}/>
         </Styled.NewSuperContainer>
     )
 }

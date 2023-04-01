@@ -9,76 +9,24 @@ import ListSelector from '../../components/ListSelector'
 import Product from '../../components/Product'
 import * as Styled from './styled'
 import Button from '../../components/Button'
-import { useRoute, RouteProp } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 import { TScreenListSuperProps } from '../../routes/app.routes'
-
-interface Product {
-    id: number;
-    name: string
-}
-
-interface ModelListSuper {
-    selector: string;
-    products: Product[]
-}
+import ListSuperDTO, { TListSelector } from '../../storage/listSuper/listSuperDTO'
 
 export default function ListSuper() {
-    const [listSupers, setListSupers] = useState<ModelListSuper[]>([
-        {
-            selector: 'Frios',
-            products: [{
-                id: 1,
-                name: 'Banana'
-            },
-            {
-                id: 2,
-                name: 'Banana'
-            },
-            {
-                id: 9,
-                name: 'Banana'
-            },
-            {
-                id: 8,
-                name: 'Banana'
-            },
-            {
-                id: 10,
-                name: 'Banana'
-            },
-            {
-                id: 3,
-                name: 'Banana'
-            },
-            {
-                id: 5,
-                name: 'Banana'
-            },
-            {
-                id: 4,
-                name: 'Banana'
-            },
-        ]
-        },
-        {
-            selector: 'Bebidas',
-            products: [{
-                id: 1,
-                name: 'Cerveja'
-            }]
-        }
-    ])
-    const [listSuperSelected, setListSuperSelected] = useState('Frios')
-
+    const [listSuper, setListSuper] = useState<ListSuperDTO[]>([])
+    const [listSelectorActive, setListSelectorActive] = useState<TListSelector>("Frios")
     const route = useRoute()
     const params = route.params as TScreenListSuperProps
     const superMarket = params.superMarket
+
+    const listSuperSelected = listSuper.filter(list => list.listSelector == listSelectorActive)
 
     return (
         <Styled.ListSuperContainer>
             <Header />
             <InfoHighlight 
-                title={superMarket}
+                title={superMarket.name}
                 description='Adicione produtos nas listas de compras'
             />
             <Styled.FormProduct>
@@ -90,29 +38,32 @@ export default function ListSuper() {
                     variant="sucess"
                 />
             </Styled.FormProduct>
+
             <Styled.ListSuperSelector>
                 <FlatList 
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={{columnGap:5}}
-                    data={listSupers}
-                    keyExtractor={(listSuper) => listSuper.selector}
+                    data={listSuper}
+                    keyExtractor={(listSuper) => listSuper.listSelector}
                     renderItem={({ item : listSuper }) => (
                         <ListSelector 
-                            listSelector={listSuper.selector}
-                            isSelected={listSuper.selector === listSuperSelected}
-                            onPress={() => setListSuperSelected(listSuper.selector)}
+                            listSelector={listSuper.listSelector}
+                            isSelected={listSuper.listSelector === listSelectorActive}
+                            onPress={() => setListSelectorActive(listSuper.listSelector)}
                         />
                     )}
                 />
             </Styled.ListSuperSelector>
+
             <FlatList 
-                data={listSupers.filter(list => list.selector == listSuperSelected)[0].products}
-                keyExtractor={product => product.id.toString()}
-                renderItem={({ item: product }) => <Product name={product.name} />}
+                data={listSuperSelected}
+                keyExtractor={(listSuper, index) => listSuper.products[index].id}
+                renderItem={({ item: listSuper, index }) => <Product name={listSuper.products[index].name} />}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={() => <ListEmpty messageEmpty="Não há produtos listados" />}
             />
+
             <Button 
                 buttonText="Deletar Supermercado"
                 variant="error"
