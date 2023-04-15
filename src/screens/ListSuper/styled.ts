@@ -4,8 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export const ListSuperContainer = styled(SafeAreaView)`
     flex: 1;
     background: ${props => props.theme["gray-900"]};
-    gap: 10px;
     padding: 0 15px 15px;
+    gap: 10px;
 `
 
 export const FormProduct = styled.View`

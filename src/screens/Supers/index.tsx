@@ -7,11 +7,11 @@ import SuperCard from "../../components/SuperCard";
 import * as Styled from "./styled";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import read from "../../storage/superMarket/read";
-import SuperMarketDTO from "../../storage/superMarket/SuperMarketDTO";
-import { AppRoutes } from "../../routes/app.routes";
+import { ISuperMarket } from "../../storage/appDTO";
+import { AppRoutes } from "../../routes/routes";
 
 export default function Supers() {
-    const [supers, setSupers] = useState<SuperMarketDTO[]>([])
+    const [supers, setSupers] = useState<ISuperMarket[]>([])
 
     const navigatorScreen = useNavigation()
 
@@ -32,6 +32,10 @@ export default function Supers() {
         useCallback(() => { loadSupers() }, [])
     )
 
+    function onPressOpenListSuperMarket(superMarket : ISuperMarket) {
+        navigatorScreen.navigate(AppRoutes.SUPER_LIST, {superMarket})
+    }
+
     return (
         <Styled.SupersContainer>
             <Header showButtonBack = {false} />
@@ -44,6 +48,7 @@ export default function Supers() {
                 keyExtractor={(superMarket, id) => superMarket.id}
                 renderItem={({ item : superMarket }) => (
                     <SuperCard 
+                    onPress={() => onPressOpenListSuperMarket(superMarket)}
                         superName={superMarket.name}
                     />
                 )}

@@ -6,9 +6,9 @@ import InputText from '../../components/InputText'
 import * as Styled from './styled'
 import { useNavigation} from '@react-navigation/native';
 import create from '../../storage/superMarket/create'
-import SuperMarketDTO from '../../storage/superMarket/SuperMarketDTO'
 import nextId from "react-id-generator";
-import { AppRoutes } from '../../routes/app.routes'
+import { ISuperMarket } from '../../storage/appDTO'
+import { AppRoutes } from '../../routes/routes'
 
 export default function NewSuper() {
     const [superMarket, setSuperMarket] = useState('')
@@ -17,9 +17,9 @@ export default function NewSuper() {
 
     async function onPressCreateSuper() {
         try {
-            const newSuperMarket : SuperMarketDTO = {id: nextId(), name: superMarket}
+            const newSuperMarket : ISuperMarket = {id: nextId(), name: superMarket}
             await create(newSuperMarket)
-            navigatorScreen.navigate(AppRoutes.SUPER_LIST, { superMarket })
+            navigatorScreen.navigate(AppRoutes.SUPER_LIST, {superMarket: newSuperMarket})
         } catch (error) {
             console.log(error)
         }

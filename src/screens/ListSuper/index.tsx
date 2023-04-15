@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FlatList } from 'react-native'
+import { Alert, FlatList } from 'react-native'
 import Header from '../../components/Header'
 import IconButton from '../../components/IconButton'
 import InfoHighlight from '../../components/InfoHightlight'
@@ -10,17 +10,34 @@ import Product from '../../components/Product'
 import * as Styled from './styled'
 import Button from '../../components/Button'
 import { useRoute } from '@react-navigation/native';
-import { TScreenListSuperProps } from '../../routes/app.routes'
-import ListSuperDTO, { TListSelector } from '../../storage/listSuper/listSuperDTO'
+import nextId from "react-id-generator";
+import { IProduct, TSector } from '../../storage/appDTO'
+import { PropsScreenSuperList } from '../../@types/navigation'
 
 export default function ListSuper() {
-    const [listSuper, setListSuper] = useState<ListSuperDTO[]>([])
-    const [listSelectorActive, setListSelectorActive] = useState<TListSelector>("Frios")
-    const route = useRoute()
-    const params = route.params as TScreenListSuperProps
-    const superMarket = params.superMarket
+    const [inputProduct, setInputProduct]         = useState('')
+    const [productsList, setProductsList]         = useState<IProduct[]>([])
+    const [sectorListActive, setSectorListActive] = useState<TSector>("Açougue")
 
-    const listSuperSelected = listSuper.filter(list => list.listSelector == listSelectorActive)
+    const sectorsList : TSector[] = ['Açougue', 'Padaria', 'Enlatados', 'Higiene e limpeza', 'Cereais', 'Frios e laticínios']
+
+    const productsListBySector = productsList.filter(product => product.sector == sectorListActive)
+   
+    const { params } = useRoute()
+    const {superMarket} = params as PropsScreenSuperList
+
+
+    function onPressAddProduct() {
+        if (inputProduct.trim().length == 0) {
+            return Alert.alert('Adicionar Produto', 'Informe o nome de um produto para adicionar')
+        }
+        const newProduct : IProduct = {
+            id: nextId(),
+            name: inputProduct.trim(),
+            sector: sectorListActive
+        }
+        setProductsList(lasts => [...lasts, newProduct])
+    }
 
     return (
         <Styled.ListSuperContainer>
@@ -32,10 +49,12 @@ export default function ListSuper() {
             <Styled.FormProduct>
                 <InputText 
                     placeholder='nome de um produto'
+                    onChangeText={setInputProduct}
                 />
                 <IconButton 
                     icon="add"
                     variant="sucess"
+                    onPress={onPressAddProduct}
                 />
             </Styled.FormProduct>
 
@@ -44,22 +63,22 @@ export default function ListSuper() {
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={{columnGap:5}}
-                    data={listSuper}
-                    keyExtractor={(listSuper) => listSuper.listSelector}
-                    renderItem={({ item : listSuper }) => (
+                    data={sectorsList}
+                    keyExtractor={(sector) => sector}
+                    renderItem={({ item : sector }) => (
                         <ListSelector 
-                            listSelector={listSuper.listSelector}
-                            isSelected={listSuper.listSelector === listSelectorActive}
-                            onPress={() => setListSelectorActive(listSuper.listSelector)}
+                            listSelector={sector}
+                            isSelected={sector === sectorListActive}
+                            onPress={() => setSectorListActive(sector)}
                         />
                     )}
                 />
             </Styled.ListSuperSelector>
 
             <FlatList 
-                data={listSuperSelected}
-                keyExtractor={(listSuper, index) => listSuper.products[index].id}
-                renderItem={({ item: listSuper, index }) => <Product name={listSuper.products[index].name} />}
+                data={productsListBySector}
+                keyExtractor={product => product.id}
+                renderItem={({ item: product}) => <Product name={product.name} />}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={() => <ListEmpty messageEmpty="Não há produtos listados" />}
             />
