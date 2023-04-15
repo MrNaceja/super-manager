@@ -8,13 +8,15 @@ import ListEmpty from '../../components/ListEmpty'
 import Product from '../../components/Product'
 import * as Styled from './styled'
 import Button from '../../components/Button'
-import { useFocusEffect, useRoute } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { IProduct, ISuperMarket, TSector } from '../../storage/appDTO';
 import { PropsScreenSuperList } from '../../@types/navigation'
 import read from '../../storage/superMarket/read'
 import Loading from '../../components/Loading'
 import updateListProducts from '../../storage/superMarket/updateListProducts'
 import ListSector from '../../components/ListSector';
+import remove from '../../storage/superMarket/remove';
+import { AppRoutes } from '../../routes/routes';
 
 export default function ListSuper() {
     const { params }                                            = useRoute()
@@ -29,6 +31,8 @@ export default function ListSuper() {
     const productsListBySector = superMarketListProducts.filter(product => product.sector == sectorListActive)
     const addingProduct = inputProduct.length > 0
 
+    const navigationScreen = useNavigation()
+
     async function onPressAddProduct() {
         if (inputProduct.trim().length == 0) {
             return Alert.alert('Adicionar Produto', 'Informe o nome de um produto para adicionar')
@@ -41,6 +45,22 @@ export default function ListSuper() {
         setInputProduct('')
         await updateListProducts(superMarketId, [...superMarketListProducts, newProduct])
         setSuperMarketListProducts(productsState => [...productsState, newProduct])
+    }
+
+    function onPressDeleteSuperMarket() {
+        Alert.alert('Remover Supermercado', `Tem certeza que deseja remover o supermercado (${superMarket.name})`, [
+            {
+                text:'Sim',
+                onPress: async () => {
+                    await remove(superMarketId)
+                    Alert.alert('Remover Supermercado', 'Supermercado foi removido')
+                    navigationScreen.navigate(AppRoutes.HOME)
+                }
+            },
+            {
+                text:'Não'
+            }
+        ])
     }
 
     function handleRemoveProduct(productId : string) {
@@ -125,6 +145,7 @@ export default function ListSuper() {
             <Button 
                 buttonText="Deletar Supermercado"
                 variant="error"
+                onPress={onPressDeleteSuperMarket}
             />
         </Styled.ListSuperContainer>
     )
