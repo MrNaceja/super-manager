@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import { Alert, FlatList } from 'react-native'
 import Header from '../../components/Header'
 import IconButton from '../../components/IconButton'
@@ -10,7 +10,6 @@ import Product from '../../components/Product'
 import * as Styled from './styled'
 import Button from '../../components/Button'
 import { useFocusEffect, useRoute } from '@react-navigation/native';
-import nextId from "react-id-generator";
 import { IProduct, ISuperMarket, TSector } from '../../storage/appDTO';
 import { PropsScreenSuperList } from '../../@types/navigation'
 import read from '../../storage/superMarket/read'
@@ -35,13 +34,28 @@ export default function ListSuper() {
             return Alert.alert('Adicionar Produto', 'Informe o nome de um produto para adicionar')
         }
         const newProduct : IProduct = {
-            id: nextId(),
+            id: `${superMarket.id}_${sectorListActive}_${productsListBySector.length++}`,
             name: inputProduct.trim(),
             sector: sectorListActive
         }
         setInputProduct('')
-        await updateListProducts(superMarketId, newProduct)
+        await updateListProducts(superMarketId, [...superMarketListProducts, newProduct])
         setSuperMarketListProducts(productsState => [...productsState, newProduct])
+    }
+
+    function handleRemoveProduct(productId : string) {
+        Alert.alert('Remover Produto', 'Tem certeza que deseja remover este produto da sua lista?', [
+            {
+                text: 'Sim',
+                onPress: async () => {
+                    await updateListProducts(superMarketId, [...superMarketListProducts.filter(product => product.id !== productId)])
+                    setSuperMarketListProducts(productsState => [...productsState.filter(product => product.id !== productId)])
+                }
+            },
+            {
+                text: 'Não',
+            }
+        ])
     }
 
     async function loadSuperMarketList() {
@@ -71,6 +85,8 @@ export default function ListSuper() {
                     placeholder='nome de um produto'
                     onChangeText={setInputProduct}
                     value={inputProduct}
+                    onSubmitEditing={onPressAddProduct}
+                    blurOnSubmit
                 />
                 <IconButton 
                     icon="add"
@@ -100,7 +116,7 @@ export default function ListSuper() {
             <FlatList 
                 data={productsListBySector}
                 keyExtractor={product => product.id}
-                renderItem={({ item: product}) => <Product name={product.name} />}
+                renderItem={({ item: product}) => <Product name={product.name} onRemove={() => handleRemoveProduct(product.id)}/>}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={() => <ListEmpty messageEmpty="Não há produtos listados" />}
             />
