@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState, useEffect } from 'react';
 import { Alert, FlatList } from 'react-native'
 import Header from '../../components/Header'
 import IconButton from '../../components/IconButton'
@@ -9,25 +9,28 @@ import ListSelector from '../../components/ListSelector'
 import Product from '../../components/Product'
 import * as Styled from './styled'
 import Button from '../../components/Button'
-import { useRoute } from '@react-navigation/native';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import nextId from "react-id-generator";
-import { IProduct, TSector } from '../../storage/appDTO'
+import { IProduct, ISuperMarket, TSector } from '../../storage/appDTO';
 import { PropsScreenSuperList } from '../../@types/navigation'
+import read from '../../storage/superMarket/read'
+import Loading from '../../components/Loading'
+import updateListProducts from '../../storage/superMarket/updateListProducts'
 
 export default function ListSuper() {
-    const [inputProduct, setInputProduct]         = useState('')
-    const [productsList, setProductsList]         = useState<IProduct[]>([])
-    const [sectorListActive, setSectorListActive] = useState<TSector>("Açougue")
+    const { params }                                            = useRoute()
+    const [inputProduct, setInputProduct]                       = useState('')
+    const [sectorListActive, setSectorListActive]               = useState<TSector>("Açougue")
+    const [superMarket, setSuperMarket]                         = useState<ISuperMarket>({} as ISuperMarket)
+    const [superMarketListProducts, setSuperMarketListProducts] = useState<IProduct[]>([])
+    const [superMarketListLoaded, setSuperMarketListLoaded]     = useState(false)
+    const sectorsList : TSector[]                               = ['Açougue', 'Padaria', 'Enlatados', 'Higiene e limpeza', 'Cereais', 'Frios e laticínios']
+    const {superMarketId}                                       = params as PropsScreenSuperList
 
-    const sectorsList : TSector[] = ['Açougue', 'Padaria', 'Enlatados', 'Higiene e limpeza', 'Cereais', 'Frios e laticínios']
+    const productsListBySector = superMarketListProducts.filter(product => product.sector == sectorListActive)
+    const addingProduct = inputProduct.length > 0
 
-    const productsListBySector = productsList.filter(product => product.sector == sectorListActive)
-   
-    const { params } = useRoute()
-    const {superMarket} = params as PropsScreenSuperList
-
-
-    function onPressAddProduct() {
+    async function onPressAddProduct() {
         if (inputProduct.trim().length == 0) {
             return Alert.alert('Adicionar Produto', 'Informe o nome de um produto para adicionar')
         }
@@ -36,10 +39,27 @@ export default function ListSuper() {
             name: inputProduct.trim(),
             sector: sectorListActive
         }
-        setProductsList(lasts => [...lasts, newProduct])
+        setInputProduct('')
+        await updateListProducts(superMarketId, newProduct)
+        setSuperMarketListProducts(productsState => [...productsState, newProduct])
     }
 
-    return (
+    async function loadSuperMarketList() {
+        try {
+            const superMarket = await read<ISuperMarket>(superMarketId)
+            setSuperMarket(superState => superMarket)
+            setSuperMarketListProducts(listsProductsState => superMarket.listProducts)
+            setSuperMarketListLoaded(loadState => true)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useFocusEffect(
+        useCallback(() => { loadSuperMarketList() }, [])
+    )
+
+    return !superMarketListLoaded ? <Loading /> : (
         <Styled.ListSuperContainer>
             <Header />
             <InfoHighlight 
@@ -50,11 +70,13 @@ export default function ListSuper() {
                 <InputText 
                     placeholder='nome de um produto'
                     onChangeText={setInputProduct}
+                    value={inputProduct}
                 />
                 <IconButton 
                     icon="add"
                     variant="sucess"
                     onPress={onPressAddProduct}
+                    disabled={!addingProduct}
                 />
             </Styled.FormProduct>
 

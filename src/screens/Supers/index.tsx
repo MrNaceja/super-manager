@@ -7,7 +7,7 @@ import SuperCard from "../../components/SuperCard";
 import * as Styled from "./styled";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import read from "../../storage/superMarket/read";
-import { ISuperMarket } from "../../storage/appDTO";
+import { ISuperMarket } from '../../storage/appDTO';
 import { AppRoutes } from "../../routes/routes";
 
 export default function Supers() {
@@ -21,7 +21,7 @@ export default function Supers() {
 
     async function loadSupers() {
         try {
-            const supersStoraged = await read()
+            const supersStoraged = await read<ISuperMarket[]>()
             setSupers(supersStoraged)
         } catch (error) {
             console.log(error)
@@ -33,7 +33,7 @@ export default function Supers() {
     )
 
     function onPressOpenListSuperMarket(superMarket : ISuperMarket) {
-        navigatorScreen.navigate(AppRoutes.SUPER_LIST, {superMarket})
+        navigatorScreen.navigate(AppRoutes.SUPER_LIST, {superMarketId: superMarket.id})
     }
 
     return (

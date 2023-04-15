@@ -17,9 +17,9 @@ export default function NewSuper() {
 
     async function onPressCreateSuper() {
         try {
-            const newSuperMarket : ISuperMarket = {id: nextId(), name: superMarket}
+            const newSuperMarket : ISuperMarket = {id: nextId(), name: superMarket, listProducts: []}
             await create(newSuperMarket)
-            navigatorScreen.navigate(AppRoutes.SUPER_LIST, {superMarket: newSuperMarket})
+            navigatorScreen.navigate(AppRoutes.SUPER_LIST, {superMarketId: newSuperMarket.id})
         } catch (error) {
             console.log(error)
         }

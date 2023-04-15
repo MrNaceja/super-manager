@@ -1,14 +1,14 @@
-import { AppRoutes } from '../routes/app.routes';
+import { AppRoutes }             from '../routes/app.routes';
 import { TScreenListSuperProps } from '../routes/app.routes'
-import { ISuperMarket } from '../storage/appDTO';
+import { ISuperMarket }          from '../storage/appDTO';
 
 export type PropsScreenSuperList = {
-  superMarket: ISuperMarket
+  superMarketId: string
 } 
 
 declare global {
     namespace ReactNavigation {
-      interface RootParamList extends RootStackParamList {
+      export interface RootParamList extends RootStackParamList {
         home: undefined,
         newSuper: undefined,
         superList: PropsScreenSuperList

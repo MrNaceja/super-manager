@@ -1,5 +1,6 @@
 import * as Styled from './styled'
-import { useNavigation } from '@react-navigation/native';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface PropsHeader {
     showButtonBack?: boolean
@@ -7,10 +8,10 @@ interface PropsHeader {
 
 export default function Header({ showButtonBack = true } : PropsHeader) {
 
-    const navigatorScreen = useNavigation()
+    const navigatorScreen = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
     function onPressGoToBack() {
-        navigatorScreen.goBack()
+        navigatorScreen.popToTop()
     }
 
     return (
