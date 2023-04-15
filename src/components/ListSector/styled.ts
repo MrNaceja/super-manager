@@ -1,6 +1,8 @@
 import styled from "styled-components/native";
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 import { css } from "styled-components/native";
+import { ViewProps } from "react-native/Libraries/Components/View/ViewPropTypes";
+import React from "react";
 
 interface PropsSelector {
     isSelected: boolean
@@ -8,6 +10,8 @@ interface PropsSelector {
 
 export const Selector = styled(TouchableOpacity) <PropsSelector>`
     height: 50px;
+    flex-direction: row;
+    gap: 5px;
     ${({ isSelected, theme }) => (
         css`
             background-color: ${ isSelected ? theme["gray-800"] : theme["gray-900"]};
@@ -26,4 +30,19 @@ export const SelectorText = styled.Text<PropsSelector>`
     `};
     font-size: 18px;
     font-family: 'Poppins_400Regular';
+`
+
+interface PropsTotalProducts {
+    total: number
+}
+
+export const SelectorSectorTotalProducts = styled.View.attrs<PropsTotalProducts>(props => ({
+    children: React.createElement(Text, {children: props.total, style: {color: props.theme["green-500"]}})
+} as ViewProps))<PropsTotalProducts>`
+    background: ${props => props.theme["green-700"]}80;
+    border-radius: 20px;
+    width:20px;
+    height: 20px;
+    align-items:center;
+    justify-content: center;
 `

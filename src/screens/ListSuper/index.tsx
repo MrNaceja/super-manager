@@ -5,7 +5,6 @@ import IconButton from '../../components/IconButton'
 import InfoHighlight from '../../components/InfoHightlight'
 import InputText from '../../components/InputText'
 import ListEmpty from '../../components/ListEmpty'
-import ListSelector from '../../components/ListSelector'
 import Product from '../../components/Product'
 import * as Styled from './styled'
 import Button from '../../components/Button'
@@ -15,6 +14,7 @@ import { PropsScreenSuperList } from '../../@types/navigation'
 import read from '../../storage/superMarket/read'
 import Loading from '../../components/Loading'
 import updateListProducts from '../../storage/superMarket/updateListProducts'
+import ListSector from '../../components/ListSector';
 
 export default function ListSuper() {
     const { params }                                            = useRoute()
@@ -104,10 +104,11 @@ export default function ListSuper() {
                     data={sectorsList}
                     keyExtractor={(sector) => sector}
                     renderItem={({ item : sector }) => (
-                        <ListSelector 
-                            listSelector={sector}
+                        <ListSector 
+                            sector={sector}
                             isSelected={sector === sectorListActive}
                             onPress={() => setSectorListActive(sector)}
+                            totalProducts={superMarketListProducts.filter(product => product.sector == sector).length}
                         />
                     )}
                 />
