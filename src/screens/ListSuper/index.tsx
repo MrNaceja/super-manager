@@ -80,10 +80,11 @@ export default function ListSuper() {
 
     async function loadSuperMarketList() {
         try {
+            setSuperMarketListLoaded(false)
             const superMarket = await read<ISuperMarket>(superMarketId)
-            setSuperMarket(superState => superMarket)
-            setSuperMarketListProducts(listsProductsState => superMarket.listProducts)
-            setSuperMarketListLoaded(loadState => true)
+            setSuperMarket(superMarket)
+            setSuperMarketListProducts(superMarket.listProducts)
+            setSuperMarketListLoaded(true)
         } catch (error) {
             console.log(error)
         }
@@ -93,60 +94,64 @@ export default function ListSuper() {
         useCallback(() => { loadSuperMarketList() }, [])
     )
 
-    return !superMarketListLoaded ? <Loading /> : (
+    return (
         <Styled.ListSuperContainer>
             <Header />
-            <InfoHighlight 
-                title={superMarket.name}
-                description='Adicione produtos nas listas de compras'
-            />
-            <Styled.FormProduct>
-                <InputText 
-                    placeholder='nome de um produto'
-                    onChangeText={setInputProduct}
-                    value={inputProduct}
-                    onSubmitEditing={onPressAddProduct}
-                    blurOnSubmit
+            { !superMarketListLoaded ? <Loading /> : 
+            <>
+                <InfoHighlight 
+                    title={superMarket.name}
+                    description='Adicione produtos nas listas de compras'
                 />
-                <IconButton 
-                    icon="add"
-                    variant="sucess"
-                    onPress={onPressAddProduct}
-                    disabled={!addingProduct}
-                />
-            </Styled.FormProduct>
+                <Styled.FormProduct>
+                    <InputText 
+                        placeholder='nome de um produto'
+                        onChangeText={setInputProduct}
+                        value={inputProduct}
+                        onSubmitEditing={onPressAddProduct}
+                        blurOnSubmit
+                    />
+                    <IconButton 
+                        icon="add"
+                        variant="sucess"
+                        onPress={onPressAddProduct}
+                        disabled={!addingProduct}
+                    />
+                </Styled.FormProduct>
 
-            <Styled.ListSuperSelector>
+                <Styled.ListSuperSelector>
+                    <FlatList 
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={{columnGap:5}}
+                        data={sectorsList}
+                        keyExtractor={(sector) => sector}
+                        renderItem={({ item : sector }) => (
+                            <ListSector 
+                                sector={sector}
+                                isSelected={sector === sectorListActive}
+                                onPress={() => setSectorListActive(sector)}
+                                totalProducts={superMarketListProducts.filter(product => product.sector == sector).length}
+                            />
+                        )}
+                    />
+                </Styled.ListSuperSelector>
+
                 <FlatList 
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{columnGap:5}}
-                    data={sectorsList}
-                    keyExtractor={(sector) => sector}
-                    renderItem={({ item : sector }) => (
-                        <ListSector 
-                            sector={sector}
-                            isSelected={sector === sectorListActive}
-                            onPress={() => setSectorListActive(sector)}
-                            totalProducts={superMarketListProducts.filter(product => product.sector == sector).length}
-                        />
-                    )}
+                    contentContainerStyle={{flex:1}}
+                    data={productsListBySector}
+                    keyExtractor={product => product.id}
+                    renderItem={({ item: product}) => <Product name={product.name} onRemove={() => handleRemoveProduct(product.id)}/>}
+                    showsVerticalScrollIndicator={false}
+                    ListEmptyComponent={() => <ListEmpty messageEmpty="Não há produtos listados" />}
                 />
-            </Styled.ListSuperSelector>
 
-            <FlatList 
-                data={productsListBySector}
-                keyExtractor={product => product.id}
-                renderItem={({ item: product}) => <Product name={product.name} onRemove={() => handleRemoveProduct(product.id)}/>}
-                showsVerticalScrollIndicator={false}
-                ListEmptyComponent={() => <ListEmpty messageEmpty="Não há produtos listados" />}
-            />
-
-            <Button 
-                buttonText="Deletar Supermercado"
-                variant="error"
-                onPress={onPressDeleteSuperMarket}
-            />
+                <Button 
+                    buttonText="Deletar Supermercado"
+                    variant="error"
+                    onPress={onPressDeleteSuperMarket}
+                />
+            </>}
         </Styled.ListSuperContainer>
     )
 }

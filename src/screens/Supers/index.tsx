@@ -9,10 +9,11 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import read from "../../storage/superMarket/read";
 import { ISuperMarket } from '../../storage/appDTO';
 import { AppRoutes } from "../../routes/routes";
+import Loading from "../../components/Loading";
 
 export default function Supers() {
     const [supers, setSupers] = useState<ISuperMarket[]>([])
-
+    const [supersLoaded, setSupersLoaded] = useState(false)
     const navigatorScreen = useNavigation()
 
     function onPressNavigateToCreateNewSuper() {
@@ -21,8 +22,10 @@ export default function Supers() {
 
     async function loadSupers() {
         try {
+            setSupersLoaded(false)
             const supersStoraged = await read<ISuperMarket[]>()
             setSupers(supersStoraged)
+            setSupersLoaded(true)
         } catch (error) {
             console.log(error)
         }
@@ -43,22 +46,23 @@ export default function Supers() {
                 title='Supermercados'
                 description="Gerencie listas de seus supermercados favoritos"
             />
-            <Styled.SuperList
-                data={supers}
-                keyExtractor={(superMarket, id) => superMarket.id}
-                renderItem={({ item : superMarket }) => (
-                    <SuperCard 
-                    onPress={() => onPressOpenListSuperMarket(superMarket)}
-                        superName={superMarket.name}
-                    />
-                )}
-                ListEmptyComponent={() => (
-                    <ListEmpty 
-                        messageEmpty="Você ainda não adicionou nenhum supermercado"
-                    />
-                )}
-            />
-
+            {!supersLoaded ? <Loading /> :
+                <Styled.SuperList
+                    data={supers}
+                    keyExtractor={(superMarket, id) => superMarket.id}
+                    renderItem={({ item : superMarket }) => (
+                        <SuperCard 
+                        onPress={() => onPressOpenListSuperMarket(superMarket)}
+                            superName={superMarket.name}
+                        />
+                    )}
+                    ListEmptyComponent={() => (
+                        <ListEmpty 
+                            messageEmpty="Você ainda não adicionou nenhum supermercado"
+                        />
+                    )}
+                />
+            }
             <Button 
                 buttonText="Novo Supermercado"
                 onPress={onPressNavigateToCreateNewSuper}
