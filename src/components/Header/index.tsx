@@ -24,7 +24,7 @@ export default function Header({ showButtonBack = true } : PropsHeader) {
                     <Styled.IconBack />
                 </Styled.ButtonBack>
             }
-            <LogoSvg width="100%" />
+            <LogoSvg width={300} />
         </Styled.Header>
     )
 }

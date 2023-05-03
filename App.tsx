@@ -10,7 +10,7 @@ export default function App() {
 const [fontLoaded] = useFonts({Poppins_400Regular, Poppins_700Bold})
   return (
     <ThemeProvider theme={DefaultTheme}>
-      <StatusBar style='dark' />
+      <StatusBar style='dark' translucent />
       {
         fontLoaded ? <Router /> : <Loading />
       }
