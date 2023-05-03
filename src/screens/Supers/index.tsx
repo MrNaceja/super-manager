@@ -48,6 +48,7 @@ export default function Supers() {
             />
             {!supersLoaded ? <Loading /> :
                 <Styled.SuperList
+                    showsVerticalScrollIndicator={false}
                     data={supers}
                     keyExtractor={(superMarket, id) => superMarket.id}
                     renderItem={({ item : superMarket }) => (

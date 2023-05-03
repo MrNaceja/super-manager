@@ -2,6 +2,8 @@ import * as Styled from './styled'
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+import LogoSvg from '../../../assets/logo.svg'
+
 interface PropsHeader {
     showButtonBack?: boolean
 }
@@ -22,7 +24,7 @@ export default function Header({ showButtonBack = true } : PropsHeader) {
                     <Styled.IconBack />
                 </Styled.ButtonBack>
             }
-            <Styled.Logo />
+            <LogoSvg width="100%" />
         </Styled.Header>
     )
 }

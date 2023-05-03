@@ -5,13 +5,45 @@ export interface ISuperMarket {
     sectors: TSector[]
 }
 
-export type TSector = 'Açougue' | 'Padaria' | 'Enlatados' | 'Higiene e Limpeza' | 'Cereais' | 'Frios e Laticínios' | 'Frutas e Verduras'
+export type TSector = 
+'Padaria' |
+'Açougue' |
+'Hortifruti' |
+'Laticínios' |
+'Bebidas' |
+'Mercearia' |
+'Limpeza' |
+'Higiene' |
+'Petshop' |
+'Produtos Naturais' |
+'Congelados' |
+'Cereais e Grãos' |
+'Utensílios' |
+'Floricultura' |
+'Papelaria' |
+'Acessórios' |
+'Farmácia' |
+'Automotivo';
 
 export const SETORES : TSector[] = [
-    'Açougue', 'Padaria',
-    'Enlatados', 'Higiene e Limpeza',
-    'Cereais', 'Frios e Laticínios',
-    'Frutas e Verduras'
+    'Padaria' ,
+    'Açougue' ,
+    'Hortifruti' ,
+    'Laticínios' ,
+    'Bebidas' ,
+    'Mercearia' ,
+    'Limpeza' ,
+    'Higiene' ,
+    'Petshop' ,
+    'Produtos Naturais' ,
+    'Congelados' ,
+    'Cereais e Grãos' ,
+    'Utensílios' ,
+    'Floricultura' ,
+    'Papelaria' ,
+    'Acessórios' ,
+    'Farmácia' ,
+    'Automotivo'
 ]
 
 export interface IProduct {

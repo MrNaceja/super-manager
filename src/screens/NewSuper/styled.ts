@@ -8,7 +8,6 @@ export const NewSuperContainer = styled(SafeAreaView)`
     gap:30px;
     padding: 0 15px 15px;
 `
-
 export const SelectSectorList = styled(MultiSelect).attrs(props => {
     return {
         styleDropdownMenuSubsection: {
