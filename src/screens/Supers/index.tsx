@@ -54,6 +54,7 @@ export default function Supers() {
                         <SuperCard 
                         onPress={() => onPressOpenListSuperMarket(superMarket)}
                             superName={superMarket.name}
+                            totalProducts={superMarket.listProducts.length}
                         />
                     )}
                     ListEmptyComponent={() => (

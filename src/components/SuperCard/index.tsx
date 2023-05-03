@@ -2,14 +2,24 @@ import { TouchableOpacityProps } from 'react-native'
 import * as Styled from './styled'
 
 interface PropsSuper extends TouchableOpacityProps{
-    superName: string
+    superName: string,
+    totalProducts: number
 }
 
-export default function SuperCard({ superName, ...touchableProps } : PropsSuper) {
+export default function SuperCard({ superName, totalProducts, ...touchableProps } : PropsSuper) {
     return (
         <Styled.TouchableCard {...touchableProps} >
             <Styled.Icon />
-            <Styled.SuperName>{superName}</Styled.SuperName>
+            <Styled.SuperInfo>
+                <Styled.SuperName>{superName}</Styled.SuperName>
+                <Styled.SuperTotalProducts>
+                {
+                    totalProducts == 0
+                    ? "Nenhum produto na lista de compras"
+                    : totalProducts + " produto(s) na lista de compras"
+                } 
+                </Styled.SuperTotalProducts>
+            </Styled.SuperInfo>
         </Styled.TouchableCard>
     )
 }

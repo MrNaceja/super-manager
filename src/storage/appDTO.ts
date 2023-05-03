@@ -1,10 +1,18 @@
 export interface ISuperMarket {
     id: string,
     name: string,
-    listProducts: IProduct[]
+    listProducts: IProduct[],
+    sectors: TSector[]
 }
 
 export type TSector = 'Açougue' | 'Padaria' | 'Enlatados' | 'Higiene e Limpeza' | 'Cereais' | 'Frios e Laticínios' | 'Frutas e Verduras'
+
+export const SETORES : TSector[] = [
+    'Açougue', 'Padaria',
+    'Enlatados', 'Higiene e Limpeza',
+    'Cereais', 'Frios e Laticínios',
+    'Frutas e Verduras'
+]
 
 export interface IProduct {
     id: string,

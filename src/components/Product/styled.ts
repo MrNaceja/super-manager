@@ -7,21 +7,21 @@ export const ProductContainer = styled.View`
     flex-direction: row;
     align-items: center;
     gap: 10px;
-    border-bottom-color: ${props => props.theme["gray-800"]};
+    border-bottom-color: ${props => props.theme["gray-300"]};
     border-bottom-width: 2px;
     padding:10px;
 `
 
 export const ProductName = styled.Text`
     flex: 1;
-    color: ${props => props.theme["gray-500"]};
+    color: ${props => props.theme["gray-600"]};
     font-size: 18px;
     font-family: 'Poppins_400Regular';
 `
 
 export const ProductIcon = styled(ShoppingBag).attrs(props => <IconProps>({
-    color: props.theme["gray-600"],
-    size: 20
+    color: props.theme["gray-500"],
+    size: 24
 }))`
 
 `

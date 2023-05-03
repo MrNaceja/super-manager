@@ -13,3 +13,4 @@ export enum DefaultTheme {
     'green-500' = '#008000',
     'green-700' = '#004b23'
 }
+

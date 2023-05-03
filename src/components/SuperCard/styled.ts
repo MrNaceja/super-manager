@@ -3,10 +3,17 @@ import styled from "styled-components/native";
 import { ShoppingCart } from 'phosphor-react-native'
 
 export const SuperName = styled.Text`
-    color: ${props => props.theme["gray-600"]};
+    color: ${props => props.theme["gray-800"]};
     font-size: 28px;
     font-family: 'Poppins_400Regular';
 `
+
+export const SuperTotalProducts = styled.Text`
+    color: ${props => props.theme["gray-600"]};
+    font-size:14px;
+`
+
+export const SuperInfo = styled.View``
 
 export const Icon = styled(ShoppingCart).attrs(props => ({
     size: 28,

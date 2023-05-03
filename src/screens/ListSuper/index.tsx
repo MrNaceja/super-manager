@@ -9,7 +9,7 @@ import Product from '../../components/Product'
 import * as Styled from './styled'
 import Button from '../../components/Button'
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
-import { IProduct, ISuperMarket, TSector } from '../../storage/appDTO';
+import { IProduct, ISuperMarket, TSector, SETORES } from '../../storage/appDTO';
 import { PropsScreenSuperList } from '../../@types/navigation'
 import read from '../../storage/superMarket/read'
 import Loading from '../../components/Loading'
@@ -21,11 +21,11 @@ import { AppRoutes } from '../../routes/routes';
 export default function ListSuper() {
     const { params }                                            = useRoute()
     const [inputProduct, setInputProduct]                       = useState('')
-    const [sectorListActive, setSectorListActive]               = useState<TSector>("Açougue")
     const [superMarket, setSuperMarket]                         = useState<ISuperMarket>({} as ISuperMarket)
     const [superMarketListProducts, setSuperMarketListProducts] = useState<IProduct[]>([])
+    const [superMarketSectors, setSuperMarketSectors]           = useState<TSector[]>([])
+    const [sectorListActive, setSectorListActive]               = useState<TSector>(superMarketSectors[0])
     const [superMarketListLoaded, setSuperMarketListLoaded]     = useState(false)
-    const sectorsList : TSector[]                               = ['Açougue', 'Padaria', 'Enlatados', 'Higiene e Limpeza', 'Cereais', 'Frios e Laticínios', 'Frutas e Verduras']
     const {superMarketId}                                       = params as PropsScreenSuperList
 
     const productsListBySector = superMarketListProducts.filter(product => product.sector == sectorListActive)
@@ -83,7 +83,9 @@ export default function ListSuper() {
             setSuperMarketListLoaded(false)
             const superMarket = await read<ISuperMarket>(superMarketId)
             setSuperMarket(superMarket)
+            setSuperMarketSectors(superMarket.sectors)
             setSuperMarketListProducts(superMarket.listProducts)
+            setSectorListActive(superMarket.sectors[0])
             setSuperMarketListLoaded(true)
         } catch (error) {
             console.log(error)
@@ -124,7 +126,7 @@ export default function ListSuper() {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={{columnGap:5}}
-                        data={sectorsList}
+                        data={superMarketSectors}
                         keyExtractor={(sector) => sector}
                         renderItem={({ item : sector }) => (
                             <ListSector 
