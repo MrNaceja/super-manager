@@ -3,7 +3,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export const NewSuperContainer = styled(SafeAreaView)`
     flex: 1;
-    background: ${props => props.theme["gray-900"]};
+    background: ${props => props.theme["gray-200"]};
     gap:30px;
     padding: 0 15px 15px;
+
 `

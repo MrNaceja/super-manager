@@ -8,7 +8,7 @@ export const Container = styled.View`
 
 export const TitleInfo = styled.Text`
     ${({ theme }) => css({
-        color: theme["gray-100"],
+        color: theme["gray-900"],
         fontSize: 26,
         fontWeight: "bold",
         fontFamily: 'Poppins_400Regular'
@@ -17,8 +17,9 @@ export const TitleInfo = styled.Text`
 
 export const DescInfo = styled.Text`
     ${({ theme }) => css({
-        color: theme["gray-500"],
+        color: theme["gray-600"],
         fontSize: 14,
+        textAlign:"center",
         fontFamily: 'Poppins_400Regular'
     })}
 `

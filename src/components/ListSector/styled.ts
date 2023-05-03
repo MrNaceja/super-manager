@@ -14,9 +14,9 @@ export const Selector = styled(TouchableOpacity) <PropsSelector>`
     gap: 5px;
     ${({ isSelected, theme }) => (
         css`
-            background-color: ${ isSelected ? theme["gray-800"] : theme["gray-900"]};
+            border-bottom-width: 2px;
+            border-bottom-color: ${ isSelected ? theme["green-500"] : theme["gray-200"]};
             padding: 5px 20px;
-            border-radius: 5px;
             align-items: center;
             justify-content: center;
         `
@@ -25,21 +25,21 @@ export const Selector = styled(TouchableOpacity) <PropsSelector>`
 
 export const SelectorText = styled.Text<PropsSelector>`
     ${({ theme, isSelected }) => css`
-        color: ${isSelected ? theme["gray-500"] : theme["gray-700"]};
+        color: ${isSelected ? theme["green-500"] : theme["gray-500"]};
         font-weight: ${isSelected ? 'bold' : 'normal'};
     `};
     font-size: 18px;
     font-family: 'Poppins_400Regular';
 `
 
-interface PropsTotalProducts {
+interface PropsTotalProducts extends PropsSelector{
     total: number
 }
 
 export const SelectorSectorTotalProducts = styled.View.attrs<PropsTotalProducts>(props => ({
-    children: React.createElement(Text, {children: props.total, style: {color: props.theme["green-500"]}})
+    children: React.createElement(Text, {children: props.total, style: {color: props.theme["gray-200"],  fontWeight: "bold"}})
 } as ViewProps))<PropsTotalProducts>`
-    background: ${props => props.theme["green-700"]}80;
+    background: ${props => props.isSelected ? props.theme["green-500"] : props.theme["gray-400"]};
     border-radius: 20px;
     width:20px;
     height: 20px;

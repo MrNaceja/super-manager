@@ -13,7 +13,7 @@ export default function ListSector({ sector, isSelected = false, totalProducts, 
             <Styled.SelectorText isSelected={isSelected}>
                 { sector }
             </Styled.SelectorText>
-            <Styled.SelectorSectorTotalProducts total={totalProducts}/>
+            <Styled.SelectorSectorTotalProducts total={totalProducts} isSelected={isSelected}/>
         </Styled.Selector>
     )
 }

@@ -30,6 +30,6 @@ function getColorVariant(variant : TVariantsIcon, theme : DefaultTheme) {
 }
 
 export const Icon = styled(MaterialIcons).attrs<PropsIcon>(({ variant, theme }) =>({
-    size: 24,
+    size: 32,
     color: getColorVariant(variant, theme)
 }))``

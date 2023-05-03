@@ -15,10 +15,10 @@ export const ButtonBack = styled.TouchableOpacity`
 `
 export const IconBack = styled(ArrowLeft).attrs(({ theme }) => ({
     size: 32,
-    color:theme["gray-100"]
+    color:theme["gray-800"]
 }))``
 
 export const Logo = styled(ShoppingCart).attrs(({ theme }) => ({
     size: 32,
-    color: theme["gray-100"],
+    color: theme["green-500"],
 }))``

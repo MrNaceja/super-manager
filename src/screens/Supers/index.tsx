@@ -44,7 +44,7 @@ export default function Supers() {
             <Header showButtonBack = {false} />
             <InfoHighlight 
                 title='Supermercados'
-                description="Gerencie listas de seus supermercados favoritos"
+                description="Gerencie listas de compras de seus supermercados favoritos"
             />
             {!supersLoaded ? <Loading /> :
                 <Styled.SuperList

@@ -4,7 +4,7 @@ export interface ISuperMarket {
     listProducts: IProduct[]
 }
 
-export type TSector = 'Açougue' | 'Padaria' | 'Enlatados' | 'Higiene e limpeza' | 'Cereais' | 'Frios e laticínios'
+export type TSector = 'Açougue' | 'Padaria' | 'Enlatados' | 'Higiene e Limpeza' | 'Cereais' | 'Frios e Laticínios' | 'Frutas e Verduras'
 
 export interface IProduct {
     id: string,

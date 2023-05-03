@@ -25,7 +25,7 @@ export default function ListSuper() {
     const [superMarket, setSuperMarket]                         = useState<ISuperMarket>({} as ISuperMarket)
     const [superMarketListProducts, setSuperMarketListProducts] = useState<IProduct[]>([])
     const [superMarketListLoaded, setSuperMarketListLoaded]     = useState(false)
-    const sectorsList : TSector[]                               = ['Açougue', 'Padaria', 'Enlatados', 'Higiene e limpeza', 'Cereais', 'Frios e laticínios']
+    const sectorsList : TSector[]                               = ['Açougue', 'Padaria', 'Enlatados', 'Higiene e Limpeza', 'Cereais', 'Frios e Laticínios', 'Frutas e Verduras']
     const {superMarketId}                                       = params as PropsScreenSuperList
 
     const productsListBySector = superMarketListProducts.filter(product => product.sector == sectorListActive)
@@ -101,7 +101,7 @@ export default function ListSuper() {
             <>
                 <InfoHighlight 
                     title={superMarket.name}
-                    description='Adicione produtos nas listas de compras'
+                    description='Adicione produtos na lista de compras'
                 />
                 <Styled.FormProduct>
                     <InputText 
